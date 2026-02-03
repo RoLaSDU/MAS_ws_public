@@ -213,7 +213,7 @@
     </joint>
 
     <plugin name='gazebo_ros2_control' filename='libgazebo_ros2_control.so'>
-      <parameters>/home/kristoffer/MAS_ws_public/install/drone_with_arm/share/drone_arm/config/controllers.yaml</parameters>
+      <parameters>/home/kristoffer/MAS_ws_public/install/drone_with_arm/share/drone_with_arm/config/controllers.yaml</parameters>
     </plugin>
 
   </model>

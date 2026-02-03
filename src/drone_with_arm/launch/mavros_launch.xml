@@ -5,7 +5,7 @@
 	<arg name="tgt_component" default="1" />
 	<arg name="fcu_protocol" default="v2.0" />
     <!-- <arg name="pluginlists_yaml" default="$(find-pkg-share fod4wind_gazebo)/config/mavros_params.yaml" /> -->
-    <arg name="config_yaml" default="$(find-pkg-share drone_arm)/config/px4_config.yaml" />
+    <arg name="config_yaml" default="$(find-pkg-share drone_with_arm)/config/px4_config.yaml" />
 
 	<!-- <node pkg="mavros" exec="mavros_node" name="mavros" required="$(eval not respawn_mavros)" output="$(arg log_output)" respawn="$(arg respawn_mavros)"> -->
 	<node pkg="mavros" exec="mavros_node" respawn="true">

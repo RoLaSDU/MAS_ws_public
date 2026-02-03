@@ -45,7 +45,7 @@ def generate_launch_description():
     }
 
     # get share path
-    gaz_pkg_share = get_package_share_directory('drone_arm')
+    gaz_pkg_share = get_package_share_directory('drone_with_arm')
     default_working_dir = LaunchConfiguration('model')
 
     return LaunchDescription([

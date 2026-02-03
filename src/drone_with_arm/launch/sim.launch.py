@@ -15,7 +15,7 @@ import random
 
 def generate_launch_description():
 
-    pkg_share = get_package_share_directory("drone_arm")
+    pkg_share = get_package_share_directory("drone_with_arm")
     urdf_file = os.path.join(pkg_share, "urdf", "two_dof_arm.urdf")
     controllers_file = os.path.join(pkg_share, "config", "controllers.yaml")
 
