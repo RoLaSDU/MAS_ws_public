@@ -8,12 +8,7 @@
       <name>drone</name>
     </include>
 
-    <!-- Include the manipulator (URDF) -->
-    <!--<include>
-      <uri>model://two_dof_arm</uri>
-      <name>arm</name>
-    </include>-->
-
+    <!-- Create two-dof arm and gimbal -->
     <link name='arm_base_link'>
       <pose>0 0 0.12 0 3.14159 3.14159</pose>
       <inertial>
@@ -27,20 +22,6 @@
           <izz>0.00001</izz>
         </inertia>
       </inertial>
-      <!--<collision name='arm_base_link_collision'>
-        <geometry>
-          <box>
-            <size>0.2 0.2 0.2</size>
-          </box>
-        </geometry>
-      </collision>-->
-      <!--<visual name='arm_base_link_visual'>
-        <geometry>
-          <box>
-            <size>0.2 0.2 0.2</size>
-          </box>
-        </geometry>
-      </visual>-->
     </link>
 
     <link name="gimbal_pitch_link">
@@ -135,14 +116,6 @@
           <izz>0.000005</izz>
         </inertia>
       </inertial>
-      <!--<collision name='link1_collision'>
-        <geometry>
-          <cylinder>
-            <length>0.3</length>
-            <radius>0.03</radius>
-          </cylinder>
-        </geometry>
-      </collision>-->
       <visual name='link1_visual'>
         <geometry>
           <cylinder>
@@ -185,14 +158,6 @@
           <izz>0.000003</izz>
         </inertia>
       </inertial>
-      <!--<collision name='link2_collision'>
-        <geometry>
-          <cylinder>
-            <length>0.3</length>
-            <radius>0.025</radius>
-          </cylinder>
-        </geometry>
-      </collision>-->
       <visual name='link2_visual'>
         <geometry>
           <cylinder>
@@ -202,18 +167,49 @@
         </geometry>
       </visual>
     </link>
+    
+    <joint name='end_effector_joint' type='fixed'>
+      <pose relative_to='link2'>0 0 0.15 0 0 0</pose>
+      <parent>link2</parent>
+      <child>end_effector_link</child>
+    </joint>
+
+    <link name='end_effector_link'>
+      <pose relative_to='end_effector_joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <mass>0.0001</mass>
+        <inertia>
+          <ixx>0.000001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.000001</iyy>
+          <iyz>0</iyz>
+          <izz>0.000001</izz>
+        </inertia>
+      </inertial>
+    </link>
 
     <!-- FIXED JOINT attaching arm to drone -->
     <joint name="arm_mount_joint" type="fixed">
       <parent>drone::base_link</parent>
       <child>arm_base_link</child>
-
-      <!-- Pose of arm base RELATIVE TO drone base -->
       <pose>0 0 0 0 0 0</pose>
     </joint>
 
+    <!-- Controller plugin for gimbal and arm -->
     <plugin name='gazebo_ros2_control' filename='libgazebo_ros2_control.so'>
       <parameters>/home/kristoffer/MAS_ws_public/install/drone_with_arm/share/drone_with_arm/config/controllers.yaml</parameters>
+    </plugin>
+    
+    <!-- Plugin for end effector pose publishing -->
+    <plugin name="end_effector_pose_publisher" filename="libgazebo_ros_p3d.so">
+      <ros>
+        <namespace>end_effector</namespace>
+        <remapping>odom:=pose</remapping>
+      </ros>
+      <body_name>end_effector_link</body_name>
+      <frame_name>world</frame_name>
+      <update_rate>30.0</update_rate>
     </plugin>
 
   </model>
